@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
@@ -16,24 +16,14 @@ import Password from "./pages/Password";
 const App = () => {
   const { currentUser } = useContext(AuthContext);
 
-  const ProtectedRoute = ({ children }) => {
-    if (!currentUser) {
-      return <Navigate to="/login"></Navigate>;
-    }
-    return children;
-  };
 
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/">
+        <Route  path="/">
           <Route
             index
-            element={
-              <ProtectedRoute>
-                <Home />
-              </ProtectedRoute>
-            }
+            element={currentUser ? <Home></Home> : <Login></Login>}
           ></Route>
           <Route path="login" element={<Login />}></Route>
           <Route path="register" element={<Register></Register>}></Route>
