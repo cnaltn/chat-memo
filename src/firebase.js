@@ -5,13 +5,13 @@ import { getStorage } from "firebase/storage";
 import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyApyjPn694Ck5ioExAIiw068TRT53BgxJ4",
-  authDomain: "memochat-34bce.firebaseapp.com",
-  projectId: "memochat-34bce",
-  storageBucket: "memochat-34bce.appspot.com",
-  messagingSenderId: "1094153464817",
-  appId: "1:1094153464817:web:df9b22cf037bcb7aa27250",
-  measurementId: "G-M161D70P8R",
+  apiKey: import.meta.env.VITE_FB_API_KEY,
+  authDomain: import.meta.env.VITE_FB_AUTH_DOMAIN, 
+  projectId: import.meta.env.VITE_FB_P_ID,
+  storageBucket: import.meta.env.VITE_FB_S_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FB_MS,
+  appId: import.meta.env.VITE_FB_APPID,
+  measurementId: import.meta.env.VITE_FB_MI,
 };
 
 // Initialize Firebase
