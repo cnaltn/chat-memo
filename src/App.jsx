@@ -30,9 +30,9 @@ const App = () => {
           <Route
             index
             element={
-             
-               currentUser? <Home /> : <Login></Login>
-              
+              <ProtectedRoute>
+                <Home />
+              </ProtectedRoute>
             }
           ></Route>
           <Route path="/login" element={<Login />}></Route>
