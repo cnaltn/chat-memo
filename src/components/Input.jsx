@@ -30,11 +30,11 @@ const Input = () => {
       e.code === "Enter" && handleSend();
       setInputErr(false);
     }
-    if(text.length == 0 && image){
+    else if(text.length === 0 && image){
       e.code === "Enter" && handleSend();
       setInputErr(false);
     }
-    else {
+    else if(text.length === 0) {
       setInputErr(true);
     }
   };
