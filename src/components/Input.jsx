@@ -29,7 +29,12 @@ const Input = () => {
     if (text.length > 0) {
       e.code === "Enter" && handleSend();
       setInputErr(false);
-    } else {
+    }
+    if(text.length == 0 && image){
+      e.code === "Enter" && handleSend();
+      setInputErr(false);
+    }
+    else {
       setInputErr(true);
     }
   };
