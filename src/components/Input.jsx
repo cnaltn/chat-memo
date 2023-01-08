@@ -17,13 +17,30 @@ import { db } from "../firebase";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 
 const Input = () => {
+
   const [text, setText] = useState("");
   const [image, setImage] = useState("");
   const { currentUser } = useContext(AuthContext);
   const { chatData } = useContext(ChatContext);
   const [uploadStatus, setUploadStatus] = useState();
+  const [inputErr, setInputErr] = useState(false);
+
+  const handleKey = (e) => {
+    if (text.length > 0) {
+      e.code === "Enter" && handleSend();
+      setInputErr(false);
+    } else {
+      setInputErr(true);
+    }
+  };
 
   const handleSend = async () => {
+    if (text.length == 0) {
+      setInputErr(true);
+    }
+    setText("");
+    setImage(null);
+
     if (image) {
       const storageRef = ref(storage, uuid());
       const uploadTask = uploadBytesResumable(storageRef, image);
@@ -60,7 +77,23 @@ const Input = () => {
                 image: downloadURL,
               }),
             });
+            await updateDoc(doc(db, "userChats", currentUser.uid), {
+              [chatData.chatId + ".lastMessage"]: {
+                text,
+                owner: currentUser.displayName,
+              },
+        
+              [chatData.chatId + ".date"]: serverTimestamp(),
+            });
+            await updateDoc(doc(db, "userChats", chatData.user.uid), {
+              [chatData.chatId + ".lastMessage"]: {
+                text,
+                owner: currentUser.displayName,
+              },
+              [chatData.chatId + ".date"]: serverTimestamp(),
+            });
           });
+          
         }
       );
     } else {
@@ -72,25 +105,27 @@ const Input = () => {
           date: Timestamp.now(),
         }),
       });
+      await updateDoc(doc(db, "userChats", currentUser.uid), {
+        [chatData.chatId + ".lastMessage"]: {
+          text,
+          owner: currentUser.displayName,
+        },
+  
+        [chatData.chatId + ".date"]: serverTimestamp(),
+      });
+      await updateDoc(doc(db, "userChats", chatData.user.uid), {
+        [chatData.chatId + ".lastMessage"]: {
+          text,
+          owner: currentUser.displayName,
+        },
+        [chatData.chatId + ".date"]: serverTimestamp(),
+      });
     }
-    setText("");
-    setImage(null);
 
-    await updateDoc(doc(db, "userChats", currentUser.uid), {
-      [chatData.chatId + ".lastMessage"]: {
-        text,
-        owner: currentUser.displayName,
-      },
+    
 
-      [chatData.chatId + ".date"]: serverTimestamp(),
-    });
-    await updateDoc(doc(db, "userChats", chatData.user.uid), {
-      [chatData.chatId + ".lastMessage"]: {
-        text,
-        owner: currentUser.displayName,
-      },
-      [chatData.chatId + ".date"]: serverTimestamp(),
-    });
+
+    
   };
 
   return (
@@ -101,10 +136,13 @@ const Input = () => {
         }
       >
         <input
-          className="w-full focus:outline-none placeholder:font-thin"
+          className={ inputErr ?"w-full focus:outline-none placeholder:font-thin placeholder:text-red-500" :"w-full focus:outline-none placeholder:font-thin"}
           value={text}
+          onKeyDown={handleKey}
           onChange={(e) => setText(e.target.value)}
-          placeholder="Type something..."
+          placeholder={
+            inputErr ? "You have to type something..." : "Type something..."
+          }
           type="text"
         ></input>
         <div className="flex items-center gap-x-3">
@@ -119,7 +157,16 @@ const Input = () => {
           </label>
           <BsFillImageFill className="text-xl text-neutral-600 cursor-pointer"></BsFillImageFill>
           <button
-            onClick={handleSend}
+            onClick={() => {
+              if (text.length > 0) {
+               
+                handleSend();
+              }
+              if(text.length == 0){
+                setInputErr(true)
+              }
+              
+            }}
             className={
               parseInt(uploadStatus) < 100
                 ? "animate-pulse bg-neutral-600 font-thin text-sm pt-2 pb-2 pl-4 pr-4 text-white rounded w-max flex"
