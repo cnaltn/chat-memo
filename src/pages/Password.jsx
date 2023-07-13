@@ -31,7 +31,9 @@ const Password = () => {
       <div className="bg-white tracking-tighter p-20 rounded shadow-md flex flex-col gap-y-5">
         <form onSubmit={handleSubmit} className="flex flex-col gap-y-5 w-80">
           <div className="text-center">
-            <p className="text-3xl font-semibold text-neutral-700">Memo Chat</p>
+            <p className="text-3xl font-semibold text-neutral-700">
+              Can Message
+            </p>
             <p className="text-xl font-thin">Login</p>
           </div>
 

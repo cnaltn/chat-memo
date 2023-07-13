@@ -9,7 +9,7 @@ const Navbar = () => {
 
   return (
     <div className="flex items-center bg-neutral-800 p-6 justify-between text-neutral-300">
-      <span className="font-semibold text-lg hidden 2xl:flex">Memo Chat</span>
+      <span className="font-semibold text-lg hidden 2xl:flex">Can Message</span>
       <div className="flex gap-x-3 items-center">
         <img
           className="bg-neutral-300 h-8 w-8 rounded-[50%] object-cover"

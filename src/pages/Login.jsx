@@ -43,7 +43,9 @@ const Login = () => {
       <div className="bg-white tracking-tighter p-20 h-[max]  rounded shadow-md flex flex-col">
         <form onSubmit={handleSubmit} className="flex flex-col w-72 ">
           <div className="text-center flex flex-col pb-6">
-            <p className="text-3xl font-semibold text-neutral-700">Memo Chat</p>
+            <p className="text-3xl font-semibold text-neutral-700">
+              Can Message
+            </p>
             <p className="text-xl font-thin">Login</p>
           </div>
           <div className="flex flex-col gap-y-3">
